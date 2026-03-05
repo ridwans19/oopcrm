@@ -3,14 +3,20 @@ package com.dms.database;
 import java.sql.*;
 import com.dms.model.User;
 import com.dms.util.Utils;
+import com.dms.util.ConfigLoader;
 
 public class Database {
-    private static final String URL = "jdbc:postgresql://localhost:5432/dealership_db";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "postgres";
+    private static final String URL = ConfigLoader.get("db.url");
+    private static final String USER = ConfigLoader.get("db.user");
+    private static final String PASSWORD = ConfigLoader.get("db.password");
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        try {
+            return DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (SQLException e) {
+            System.err.println("Database connection failed: " + e.getMessage());
+            throw new SQLException("Unable to connect to database. Please check if PostgreSQL is running.", e);
+        }
     }
 
     // Temporary hardcoded authentication for testing
