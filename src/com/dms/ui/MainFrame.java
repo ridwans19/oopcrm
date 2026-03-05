@@ -1,0 +1,223 @@
+package com.dms.ui;
+
+import javax.swing.*;
+import java.awt.*;
+import com.dms.util.Utils;
+
+public class MainFrame extends JFrame {
+    private JPanel contentPanel;
+
+    public MainFrame() {
+        setTitle("DMS - Dealership Management System");
+        setSize(1200, 700);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        // Main layout
+        setLayout(new BorderLayout());
+
+        // Menu bar
+        setJMenuBar(createMenuBar());
+
+        // Top bar
+        JPanel topBar = createTopBar();
+        add(topBar, BorderLayout.NORTH);
+
+        // Sidebar
+        JPanel sidebar = createSidebar();
+        add(sidebar, BorderLayout.WEST);
+
+        // Content area
+        contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setBackground(Color.WHITE);
+        add(contentPanel, BorderLayout.CENTER);
+
+        // Show dashboard by default
+        showPanel(new DashboardPanel());
+    }
+
+    private JMenuBar createMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        String role = Utils.currentUser.getRole();
+
+        // File Menu
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem refreshItem = new JMenuItem("Refresh");
+        refreshItem.addActionListener(e -> showPanel(new DashboardPanel()));
+        fileMenu.add(refreshItem);
+        fileMenu.addSeparator();
+        JMenuItem logoutItem = new JMenuItem("Logout");
+        logoutItem.addActionListener(e -> logout());
+        fileMenu.add(logoutItem);
+        JMenuItem exitItem = new JMenuItem("Exit");
+        exitItem.addActionListener(e -> System.exit(0));
+        fileMenu.add(exitItem);
+        menuBar.add(fileMenu);
+
+        // View Menu
+        JMenu viewMenu = new JMenu("View");
+        JMenuItem dashboardItem = new JMenuItem("Dashboard");
+        dashboardItem.addActionListener(e -> handleMenuClick("Dashboard"));
+        viewMenu.add(dashboardItem);
+        JMenuItem vehiclesItem = new JMenuItem("Vehicles");
+        vehiclesItem.addActionListener(e -> handleMenuClick("Vehicles"));
+        viewMenu.add(vehiclesItem);
+        JMenuItem customersItem = new JMenuItem("Customers");
+        customersItem.addActionListener(e -> handleMenuClick("Customers"));
+        viewMenu.add(customersItem);
+        
+        if (role.equals("ADMIN") || role.equals("SALES")) {
+            JMenuItem salesItem = new JMenuItem("Sales");
+            salesItem.addActionListener(e -> handleMenuClick("Sales"));
+            viewMenu.add(salesItem);
+        }
+        
+        if (role.equals("ADMIN") || role.equals("SERVICE")) {
+            JMenuItem serviceItem = new JMenuItem("Service");
+            serviceItem.addActionListener(e -> handleMenuClick("Service"));
+            viewMenu.add(serviceItem);
+        }
+        
+        if (role.equals("ADMIN") || role.equals("SALES")) {
+            JMenuItem reportsItem = new JMenuItem("Reports");
+            reportsItem.addActionListener(e -> handleMenuClick("Reports"));
+            viewMenu.add(reportsItem);
+        }
+        
+        if (role.equals("ADMIN")) {
+            viewMenu.addSeparator();
+            JMenuItem usersItem = new JMenuItem("User Management");
+            usersItem.addActionListener(e -> handleMenuClick("Users"));
+            viewMenu.add(usersItem);
+        }
+        menuBar.add(viewMenu);
+
+        // Help Menu
+        JMenu helpMenu = new JMenu("Help");
+        JMenuItem aboutItem = new JMenuItem("About");
+        aboutItem.addActionListener(e -> JOptionPane.showMessageDialog(this,
+            "Dealership Management System v1.0\n\nRole: " + Utils.currentUser.getRole() + "\nUser: " + Utils.currentUser.getUsername(),
+            "About DMS", JOptionPane.INFORMATION_MESSAGE));
+        helpMenu.add(aboutItem);
+        menuBar.add(helpMenu);
+
+        return menuBar;
+    }
+
+    private JPanel createTopBar() {
+        JPanel topBar = new JPanel(new BorderLayout());
+        topBar.setBackground(new Color(52, 58, 64));
+        topBar.setPreferredSize(new Dimension(0, 50));
+
+        JLabel titleLabel = new JLabel("  Dealership Management System");
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        topBar.add(titleLabel, BorderLayout.WEST);
+
+        JLabel userLabel = new JLabel(Utils.currentUser.getUsername() + " (" + Utils.currentUser.getRole() + ")  ");
+        userLabel.setForeground(Color.WHITE);
+        topBar.add(userLabel, BorderLayout.EAST);
+
+        return topBar;
+    }
+
+    private JPanel createSidebar() {
+        JPanel sidebar = new JPanel();
+        sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
+        sidebar.setBackground(new Color(33, 37, 41));
+        sidebar.setPreferredSize(new Dimension(200, 0));
+
+        String role = Utils.currentUser.getRole();
+
+        addMenuButton(sidebar, "Dashboard", true);
+        addMenuButton(sidebar, "Vehicles", true);
+        addMenuButton(sidebar, "Customers", true);
+        
+        if (role.equals("ADMIN") || role.equals("SALES")) {
+            addMenuButton(sidebar, "Sales", true);
+        }
+        
+        if (role.equals("ADMIN") || role.equals("SERVICE")) {
+            addMenuButton(sidebar, "Service", true);
+        }
+        
+        if (role.equals("ADMIN") || role.equals("SALES")) {
+            addMenuButton(sidebar, "Reports", true);
+        }
+        
+        if (role.equals("ADMIN")) {
+            addMenuButton(sidebar, "Users", true);
+        }
+
+        sidebar.add(Box.createVerticalGlue());
+
+        JButton logoutButton = createStyledButton("Logout", new Color(220, 53, 69));
+        logoutButton.addActionListener(e -> logout());
+        sidebar.add(logoutButton);
+        sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        return sidebar;
+    }
+
+    private void addMenuButton(JPanel sidebar, String text, boolean enabled) {
+        JButton button = createStyledButton(text, new Color(52, 58, 64));
+        button.setEnabled(enabled);
+        button.addActionListener(e -> handleMenuClick(text));
+        sidebar.add(button);
+        sidebar.add(Box.createRigidArea(new Dimension(0, 5)));
+    }
+
+    private JButton createStyledButton(String text, Color bgColor) {
+        JButton button = new JButton(text);
+        button.setMaximumSize(new Dimension(200, 40));
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setBackground(bgColor);
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setFont(new Font("Arial", Font.PLAIN, 14));
+        return button;
+    }
+
+    private void handleMenuClick(String menu) {
+        switch (menu) {
+            case "Dashboard":
+                showPanel(new DashboardPanel());
+                break;
+            case "Vehicles":
+                showPanel(new JLabel("Vehicles Panel - Coming Soon", SwingConstants.CENTER));
+                break;
+            case "Customers":
+                showPanel(new JLabel("Customers Panel - Coming Soon", SwingConstants.CENTER));
+                break;
+            case "Sales":
+                showPanel(new JLabel("Sales Panel - Coming Soon", SwingConstants.CENTER));
+                break;
+            case "Service":
+                showPanel(new JLabel("Service Panel - Coming Soon", SwingConstants.CENTER));
+                break;
+            case "Reports":
+                showPanel(new JLabel("Reports Panel - Coming Soon", SwingConstants.CENTER));
+                break;
+            case "Users":
+                showPanel(new JLabel("Users Panel - Coming Soon", SwingConstants.CENTER));
+                break;
+        }
+    }
+
+    private void showPanel(JComponent panel) {
+        contentPanel.removeAll();
+        contentPanel.add(panel, BorderLayout.CENTER);
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
+    private void logout() {
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            Utils.currentUser = null;
+            dispose();
+            new LoginFrame().setVisible(true);
+        }
+    }
+}
