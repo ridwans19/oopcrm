@@ -1,8 +1,8 @@
 package com.dms.ui;
 
-import javax.swing.*;
-import java.awt.*;
 import com.dms.util.Utils;
+import java.awt.*;
+import javax.swing.*;
 
 public class MainFrame extends JFrame {
     private JPanel contentPanel;
@@ -188,7 +188,7 @@ public class MainFrame extends JFrame {
                 showPanel(new JLabel("Vehicles Panel - Coming Soon", SwingConstants.CENTER));
                 break;
             case "Customers":
-                showPanel(new JLabel("Customers Panel - Coming Soon", SwingConstants.CENTER));
+                showPanel(new CustomerPanel());
                 break;
             case "Sales":
                 showPanel(new JLabel("Sales Panel - Coming Soon", SwingConstants.CENTER));
