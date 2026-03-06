@@ -185,7 +185,7 @@ public class MainFrame extends JFrame {
                 showPanel(new DashboardPanel());
                 break;
             case "Vehicles":
-                showPanel(new JLabel("Vehicles Panel - Coming Soon", SwingConstants.CENTER));
+                showPanel(new VehiclePanel());
                 break;
             case "Customers":
                 showPanel(new CustomerPanel());

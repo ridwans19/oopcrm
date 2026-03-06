@@ -4,9 +4,9 @@ import com.dms.dao.CustomerDAO;
 import com.dms.dao.SaleDAO;
 import com.dms.dao.ServiceDAO;
 import com.dms.model.Customer;
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 
 public class CustomerPanel extends JPanel {
     private JTable customerTable;

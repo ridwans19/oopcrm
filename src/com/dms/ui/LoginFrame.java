@@ -1,10 +1,10 @@
 package com.dms.ui;
 
-import javax.swing.*;
-import java.awt.*;
-import com.dms.model.User;
 import com.dms.database.Database;
+import com.dms.model.User;
 import com.dms.util.Utils;
+import java.awt.*;
+import javax.swing.*;
 
 public class LoginFrame extends JFrame {
     private JTextField usernameField;
@@ -48,7 +48,7 @@ public class LoginFrame extends JFrame {
         JButton loginButton = new JButton("Login");
         loginButton.setPreferredSize(new Dimension(100, 30));
         loginButton.setBackground(new Color(0, 123, 255));
-        loginButton.setForeground(Color.WHITE);
+        loginButton.setForeground(Color.BLACK);
         loginButton.setFocusPainted(false);
         gbc.gridx = 0; gbc.gridy = 3; gbc.gridwidth = 2; gbc.anchor = GridBagConstraints.CENTER;
         mainPanel.add(loginButton, gbc);

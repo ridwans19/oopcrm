@@ -3,6 +3,7 @@ package com.dms.ui;
 import javax.swing.*;
 import java.awt.*;
 import com.dms.util.Utils;
+import com.dms.database.Database;
 
 public class DashboardPanel extends JPanel {
     
@@ -23,7 +24,8 @@ public class DashboardPanel extends JPanel {
         statsPanel.setBackground(new Color(248, 249, 250));
         statsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        statsPanel.add(createStatCard("Total Vehicles", "0", new Color(0, 123, 255)));
+        int vehicleCount = Database.getAllVehicles().size();
+        statsPanel.add(createStatCard("Total Vehicles", String.valueOf(vehicleCount), new Color(0, 123, 255)));
         statsPanel.add(createStatCard("Total Customers", "0", new Color(40, 167, 69)));
         statsPanel.add(createStatCard("Total Sales", "0", new Color(255, 193, 7)));
         statsPanel.add(createStatCard("Total Revenue", "$0.00", new Color(220, 53, 69)));
