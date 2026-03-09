@@ -1,12 +1,13 @@
 package com.dms.database;
 
+import com.dms.model.Customer;
+import com.dms.model.User;
+import com.dms.model.Vehicle;
+import com.dms.util.ConfigLoader;
+import com.dms.util.Utils;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import com.dms.model.User;
-import com.dms.model.Vehicle;
-import com.dms.util.Utils;
-import com.dms.util.ConfigLoader;
 
 public class Database {
     private static final String URL = ConfigLoader.get("db.url");
@@ -59,6 +60,30 @@ public class Database {
         return null;
     }
 
+    public static List<Customer> getAllCustomers(){
+        List<Customer> customers = new ArrayList<>();
+        String sql = "SELECT * FROM customers ORDER BY id";
+        try (Connection conn = Database.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Customer c = new Customer();
+                c.setId(rs.getInt("id"));
+                c.setName(rs.getString("name"));
+                c.setEmail(rs.getString("email"));
+                c.setPhone(rs.getString("phone"));
+                c.setAddress(rs.getString("address"));
+                c.setActive(rs.getBoolean("active"));
+                customers.add(c);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching customers: " + e.getMessage());
+        }
+        return customers;
+    }
+
+    
     // Vehicle CRUD operations
     public static List<Vehicle> getAllVehicles() {
         List<Vehicle> vehicles = new ArrayList<>();

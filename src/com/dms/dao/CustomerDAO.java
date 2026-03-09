@@ -1,7 +1,7 @@
 package com.dms.dao;
 
-import com.dms.model.Customer;
 import com.dms.database.Database;
+import com.dms.model.Customer;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +39,26 @@ public class CustomerDAO {
             }
         }
         return customers;
+    }
+
+    public Customer getCustomerById(int id) throws SQLException {
+        String sql = "SELECT * FROM customers WHERE id=?";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Customer c = new Customer();
+                c.setId(rs.getInt("id"));
+                c.setName(rs.getString("name"));
+                c.setEmail(rs.getString("email"));
+                c.setPhone(rs.getString("phone"));
+                c.setAddress(rs.getString("address"));
+                c.setActive(rs.getBoolean("active"));
+                return c;
+            }
+        }
+        return null;
     }
 
     public void updateCustomer(Customer customer) throws SQLException {

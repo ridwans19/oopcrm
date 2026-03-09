@@ -43,6 +43,27 @@ public class VehicleDAO {
         return vehicles;
     }
 
+    public Vehicle getVehicleById(int id) throws SQLException {
+        String sql = "SELECT * FROM vehicles WHERE id=?";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Vehicle v = new Vehicle();
+                v.setId(rs.getInt("id"));
+                v.setVin(rs.getString("vin"));
+                v.setMake(rs.getString("make"));
+                v.setModel(rs.getString("model"));
+                v.setYear(rs.getInt("year"));
+                v.setPrice(rs.getDouble("price"));
+                v.setStatus(rs.getString("status"));
+                return v;
+            }
+        }
+        return null;
+    }
+
     public void updateVehicle(Vehicle vehicle) throws SQLException {
         String sql = "UPDATE vehicles SET vin=?, make=?, model=?, year=?, price=?, status=? WHERE id=?";
         try (Connection conn = Database.getConnection();

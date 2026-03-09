@@ -9,6 +9,7 @@ public class Sale {
     private int employeeId;
     private Date saleDate;
     private double salePrice;
+    private String paymentMethod;
 
     public Sale() {}
 
@@ -24,4 +25,6 @@ public class Sale {
     public void setSaleDate(Date saleDate) { this.saleDate = saleDate; }
     public double getSalePrice() { return salePrice; }
     public void setSalePrice(double salePrice) { this.salePrice = salePrice; }
+    public String getPaymentMethod() { return paymentMethod; }
+    public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
 }
