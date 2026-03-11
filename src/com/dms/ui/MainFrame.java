@@ -169,12 +169,15 @@ public class MainFrame extends JFrame {
 
     private JButton createStyledButton(String text, Color bgColor) {
         JButton button = new JButton(text);
-        button.setMaximumSize(new Dimension(200, 40));
+        button.setMaximumSize(new Dimension(200, 50));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setBackground(bgColor);
-        button.setForeground(Color.WHITE);
-        button.setFocusPainted(false);
-        button.setBorderPainted(false);
+        button.setForeground(Color.black);
+        button.setFocusPainted(true);
+        button.setBorderPainted(true);
+        button.setRolloverEnabled(rootPaneCheckingEnabled);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setSelected(false);
         button.setFont(new Font("Arial", Font.PLAIN, 14));
         return button;
     }
