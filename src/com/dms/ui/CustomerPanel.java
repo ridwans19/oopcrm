@@ -64,6 +64,10 @@ public class CustomerPanel extends JPanel {
         loadCustomers();
     }
 
+    public void openAddDialog() {
+        showAddDialog();
+    }
+
     private void loadCustomers() {
         tableModel.setRowCount(0);
         try {

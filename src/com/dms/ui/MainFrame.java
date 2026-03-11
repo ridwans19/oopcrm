@@ -92,6 +92,35 @@ public class MainFrame extends JFrame {
         }
         menuBar.add(viewMenu);
 
+        // Quick Actions Menu
+        JMenu actionsMenu = new JMenu("Quick Actions");
+        
+        JMenuItem newCustomerItem = new JMenuItem("New Customer");
+        newCustomerItem.setAccelerator(KeyStroke.getKeyStroke("ctrl N"));
+        newCustomerItem.addActionListener(e -> showQuickAddCustomer());
+        actionsMenu.add(newCustomerItem);
+        
+        JMenuItem newVehicleItem = new JMenuItem("New Vehicle");
+        newVehicleItem.setAccelerator(KeyStroke.getKeyStroke("alt V"));
+        newVehicleItem.addActionListener(e -> showQuickAddVehicle());
+        actionsMenu.add(newVehicleItem);
+        
+        if (role.equals("ADMIN") || role.equals("SALES")) {
+            JMenuItem newSaleItem = new JMenuItem("New Sale");
+            newSaleItem.setAccelerator(KeyStroke.getKeyStroke("alt S"));
+            newSaleItem.addActionListener(e -> showQuickNewSale());
+            actionsMenu.add(newSaleItem);
+        }
+        
+        if (role.equals("ADMIN") || role.equals("SERVICE")) {
+            JMenuItem newServiceItem = new JMenuItem("New Service");
+            newServiceItem.setAccelerator(KeyStroke.getKeyStroke("ctrl R"));
+            newServiceItem.addActionListener(e -> showQuickNewService());
+            actionsMenu.add(newServiceItem);
+        }
+        
+        menuBar.add(actionsMenu);
+
         // Help Menu
         JMenu helpMenu = new JMenu("Help");
         JMenuItem aboutItem = new JMenuItem("About");
@@ -222,5 +251,45 @@ public class MainFrame extends JFrame {
             dispose();
             new LoginFrame().setVisible(true);
         }
+    }
+
+    private void showQuickAddCustomer() {
+        handleMenuClick("Customers");
+        SwingUtilities.invokeLater(() -> {
+            if (contentPanel.getComponentCount() > 0 && contentPanel.getComponent(0) instanceof CustomerPanel) {
+                CustomerPanel panel = (CustomerPanel) contentPanel.getComponent(0);
+                panel.openAddDialog();
+            }
+        });
+    }
+
+    private void showQuickAddVehicle() {
+        handleMenuClick("Vehicles");
+        SwingUtilities.invokeLater(() -> {
+            if (contentPanel.getComponentCount() > 0 && contentPanel.getComponent(0) instanceof VehiclePanel) {
+                VehiclePanel panel = (VehiclePanel) contentPanel.getComponent(0);
+                panel.openAddDialog();
+            }
+        });
+    }
+
+    private void showQuickNewSale() {
+        handleMenuClick("Sales");
+        SwingUtilities.invokeLater(() -> {
+            if (contentPanel.getComponentCount() > 0 && contentPanel.getComponent(0) instanceof SalesPanel) {
+                SalesPanel panel = (SalesPanel) contentPanel.getComponent(0);
+                panel.openNewSaleDialog();
+            }
+        });
+    }
+
+    private void showQuickNewService() {
+        handleMenuClick("Service");
+        SwingUtilities.invokeLater(() -> {
+            if (contentPanel.getComponentCount() > 0 && contentPanel.getComponent(0) instanceof ServicePanel) {
+                ServicePanel panel = (ServicePanel) contentPanel.getComponent(0);
+                panel.newAddService();
+            }
+        });
     }
 }

@@ -64,6 +64,10 @@ public class VehiclePanel extends JPanel {
         loadVehicles();
     }
 
+    public void openAddDialog() {
+        showAddDialog();
+    }
+
     private void loadVehicles() {
         tableModel.setRowCount(0);
         try {

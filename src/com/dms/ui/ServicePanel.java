@@ -1,16 +1,16 @@
 package com.dms.ui;
 
+import com.dms.dao.CustomerDAO;
 import com.dms.dao.ServiceDAO;
 import com.dms.dao.VehicleDAO;
-import com.dms.dao.CustomerDAO;
+import com.dms.model.Customer;
 import com.dms.model.Service;
 import com.dms.model.Vehicle;
-import com.dms.model.Customer;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.sql.Date;
 import java.util.List;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class ServicePanel extends JPanel {
     private JTable serviceTable;
@@ -62,6 +62,10 @@ public class ServicePanel extends JPanel {
         loadServices();
     }
 
+     public void newAddService() {
+            showAddDialog();
+        }
+        
     private void loadServices() {
         tableModel.setRowCount(0);
         try {
@@ -179,6 +183,8 @@ public class ServicePanel extends JPanel {
                 JOptionPane.showMessageDialog(dialog, "Error: " + ex.getMessage());
             }
         });
+
+
 
         dialog.add(saveButton);
         dialog.add(new JButton("Cancel") {{ addActionListener(e -> dialog.dispose()); }});

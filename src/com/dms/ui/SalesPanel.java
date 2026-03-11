@@ -47,6 +47,10 @@ public class SalesPanel extends JPanel {
         loadSales();
     }
 
+    public void openNewSaleDialog() {
+        showNewSaleDialog();
+    }
+
     private void loadSales() {
         tableModel.setRowCount(0);
         try {
