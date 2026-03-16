@@ -180,7 +180,7 @@ public class MainFrame extends JFrame {
 
         sidebar.add(Box.createVerticalGlue());
 
-        JButton logoutButton = createStyledButton("Logout", new Color(220, 53, 69));
+        JButton logoutButton = createStyledButton("Logout", new Color(220, 53, 69), null);
         logoutButton.addActionListener(e -> logout());
         sidebar.add(logoutButton);
         sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -195,10 +195,10 @@ public class MainFrame extends JFrame {
         sidebar.add(button);
         sidebar.add(Box.createRigidArea(new Dimension(0, 5)));
     }
-
+/* 
     private JButton createStyledButton(String text, Color bgColor) {
         return createStyledButton(text, bgColor, null);
-    }
+    }*/
 
     private JButton createStyledButton(String text, Color bgColor, String imgPath) {
         JButton button = new JButton(text);
@@ -212,20 +212,20 @@ public class MainFrame extends JFrame {
         button.setSelected(false);
         button.setFont(new Font("Arial", Font.PLAIN, 14));
         button.setHorizontalAlignment(SwingConstants.LEFT);
-       
-        if (imgPath != null) {
-            java.net.URL imgUrl = getClass().getResource(imgPath);
-            if (imgUrl != null) {
-                Image scaled = new ImageIcon(imgUrl).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-                button.setIcon(new ImageIcon(scaled));
-                
-            }
-        }
         button.setRolloverEnabled(true);
         //button.setHorizontalTextPosition(SwingConstants.RIGHT);
         button.setIconTextGap(10);
+
+       
+        if (imgPath != null) {
+            ImageIcon icon = new ImageIcon(getClass().getResource(imgPath));
+            button.setIcon(new ImageIcon(icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
+        }
+
         return button;
     }
+        
+     
 
     private void handleMenuClick(String menu) {
         switch (menu) {
