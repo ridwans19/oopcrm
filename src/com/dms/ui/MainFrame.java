@@ -220,7 +220,9 @@ public class MainFrame extends JFrame {
        
         if (imgPath != null) {
             ImageIcon icon = new ImageIcon(getClass().getResource(imgPath));
-            button.setIcon(new ImageIcon(icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
+            Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            icon = new ImageIcon(scaledImage);
+            button.setIcon(icon);
         }
 
         return button;
