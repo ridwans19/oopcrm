@@ -189,36 +189,41 @@ public class MainFrame extends JFrame {
     }
 
     private void addMenuButton(JPanel sidebar, String text, boolean enabled, String imgPath) {
-        JButton button = createStyledButton(text, new Color(52, 58, 64));
+        JButton button = createStyledButton(text, new Color(52, 58, 64), imgPath);
         button.setEnabled(enabled);
-        java.net.URL imgUrl = getClass().getResource(imgPath);
-        if (imgUrl != null) {
-            Image scaled = new ImageIcon(imgUrl).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-            button.setIcon(new ImageIcon(scaled));
-        }
         button.addActionListener(e -> handleMenuClick(text));
-
         sidebar.add(button);
         sidebar.add(Box.createRigidArea(new Dimension(0, 5)));
     }
 
     private JButton createStyledButton(String text, Color bgColor) {
-        
+        return createStyledButton(text, bgColor, null);
+    }
+
+    private JButton createStyledButton(String text, Color bgColor, String imgPath) {
         JButton button = new JButton(text);
-        
         button.setMaximumSize(new Dimension(200, 50));
-        //button.setAlignmentX(Component.LEFT_ALIGNMENT);
         button.setBackground(bgColor);
         button.setForeground(Color.black);
         button.setFocusPainted(true);
         button.setBorderPainted(true);
-        button.setRolloverEnabled(rootPaneCheckingEnabled);
+        //button.setRolloverEnabled(rootPaneCheckingEnabled);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         button.setSelected(false);
         button.setFont(new Font("Arial", Font.PLAIN, 14));
         button.setHorizontalAlignment(SwingConstants.LEFT);
+       
+        if (imgPath != null) {
+            java.net.URL imgUrl = getClass().getResource(imgPath);
+            if (imgUrl != null) {
+                Image scaled = new ImageIcon(imgUrl).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+                button.setIcon(new ImageIcon(scaled));
+                
+            }
+        }
+        button.setRolloverEnabled(true);
         //button.setHorizontalTextPosition(SwingConstants.RIGHT);
-        
+        button.setIconTextGap(10);
         return button;
     }
 
