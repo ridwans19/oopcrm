@@ -195,10 +195,11 @@ public class MainFrame extends JFrame {
         sidebar.add(button);
         sidebar.add(Box.createRigidArea(new Dimension(0, 5)));
     }
-/* 
+    /* 
     private JButton createStyledButton(String text, Color bgColor) {
         return createStyledButton(text, bgColor, null);
-    }*/
+    }
+    */
 
     private JButton createStyledButton(String text, Color bgColor, String imgPath) {
         JButton button = new JButton(text);
