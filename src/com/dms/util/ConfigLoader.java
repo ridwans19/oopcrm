@@ -11,11 +11,11 @@ public class ConfigLoader {
     }
     
     private static void loadConfig() {
-        try (FileInputStream fis = new FileInputStream("config.properties")) {
+        try (FileInputStream fis = new FileInputStream("config.properties.example")) {
             properties.load(fis);
             System.out.println("Configuration loaded successfully");
         } catch (IOException e) {
-            System.err.println("Warning: config.properties not found, using defaults");
+            System.err.println("Warning: config.properties.example not found, using defaults");
             loadDefaults();
         }
     }
@@ -27,7 +27,7 @@ public class ConfigLoader {
         properties.setProperty("app.name", "Dealership Management System");
         properties.setProperty("app.version", "1.0");
     }
-    
+
     public static String get(String key) {
         return properties.getProperty(key);
     }
