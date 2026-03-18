@@ -6,3 +6,4 @@ db.password=your_password_here
 # Application Settings
 app.name=Dealership Management System
 app.version=1.0
+

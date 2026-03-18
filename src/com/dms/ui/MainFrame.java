@@ -158,29 +158,29 @@ public class MainFrame extends JFrame {
 
         String role = Utils.currentUser.getRole();
 
-        addMenuButton(sidebar, "Dashboard", true);
-        addMenuButton(sidebar, "Vehicles", true);
-        addMenuButton(sidebar, "Customers", true);
-        
+        addMenuButton(sidebar, "Dashboard", true, "/resources/images/Dashboard.png");
+        addMenuButton(sidebar, "Vehicles", true, "/resources/images/Vehicles.png");
+        addMenuButton(sidebar, "Customers", true, "/resources/images/Customers.png");
+
         if (role.equals("ADMIN") || role.equals("SALES")) {
-            addMenuButton(sidebar, "Sales", true);
+            addMenuButton(sidebar, "Sales", true, "/resources/images/Sales.png");
         }
         
         if (role.equals("ADMIN") || role.equals("SERVICE")) {
-            addMenuButton(sidebar, "Service", true);
+            addMenuButton(sidebar, "Service", true, "/resources/images/Service.png");
         }
-        
+        /* 
         if (role.equals("ADMIN") || role.equals("SALES")) {
             addMenuButton(sidebar, "Reports", true);
-        }
+        } */
         
         if (role.equals("ADMIN")) {
-            addMenuButton(sidebar, "Users", true);
+            addMenuButton(sidebar, "Users", true, "/resources/images/Customers.png");
         }
 
         sidebar.add(Box.createVerticalGlue());
 
-        JButton logoutButton = createStyledButton("Logout", new Color(220, 53, 69));
+        JButton logoutButton = createStyledButton("Logout", new Color(220, 53, 69), null);
         logoutButton.addActionListener(e -> logout());
         sidebar.add(logoutButton);
         sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -188,28 +188,47 @@ public class MainFrame extends JFrame {
         return sidebar;
     }
 
-    private void addMenuButton(JPanel sidebar, String text, boolean enabled) {
-        JButton button = createStyledButton(text, new Color(52, 58, 64));
+    private void addMenuButton(JPanel sidebar, String text, boolean enabled, String imgPath) {
+        JButton button = createStyledButton(text, new Color(52, 58, 64), imgPath);
         button.setEnabled(enabled);
         button.addActionListener(e -> handleMenuClick(text));
         sidebar.add(button);
         sidebar.add(Box.createRigidArea(new Dimension(0, 5)));
     }
-
+    /* 
     private JButton createStyledButton(String text, Color bgColor) {
+        return createStyledButton(text, bgColor, null);
+    }
+    */
+
+    private JButton createStyledButton(String text, Color bgColor, String imgPath) {
         JButton button = new JButton(text);
         button.setMaximumSize(new Dimension(200, 50));
-        button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setBackground(bgColor);
         button.setForeground(Color.black);
         button.setFocusPainted(true);
         button.setBorderPainted(true);
-        button.setRolloverEnabled(rootPaneCheckingEnabled);
+        //button.setRolloverEnabled(rootPaneCheckingEnabled);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         button.setSelected(false);
         button.setFont(new Font("Arial", Font.PLAIN, 14));
+        button.setHorizontalAlignment(SwingConstants.LEFT);
+        button.setRolloverEnabled(true);
+        //button.setHorizontalTextPosition(SwingConstants.RIGHT);
+        button.setIconTextGap(10);
+
+       
+        if (imgPath != null) {
+            ImageIcon icon = new ImageIcon(getClass().getResource(imgPath));
+            Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            icon = new ImageIcon(scaledImage);
+            button.setIcon(icon);
+        }
+
         return button;
     }
+        
+     
 
     private void handleMenuClick(String menu) {
         switch (menu) {
