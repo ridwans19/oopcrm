@@ -11,11 +11,11 @@ public class ConfigLoader {
     }
     
     private static void loadConfig() {
-        try (FileInputStream fis = new FileInputStream("config.properties.example")) {
+        try (FileInputStream fis = new FileInputStream("config.properties")) {
             properties.load(fis);
             System.out.println("Configuration loaded successfully");
         } catch (IOException e) {
-            System.err.println("Warning: config.properties.example not found, using defaults");
+            System.err.println("Warning: config.properties not found, using defaults");
             loadDefaults();
         }
     }
